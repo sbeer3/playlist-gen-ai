@@ -1,38 +1,438 @@
-.App {
+:root {
+  --soft-yellow: #FFF9C4;
+  --soft-green: #C8E6C9;
+  --soft-pink: #F8BBD0;
+  --soft-blue: #BBDEFB;
+  --lavender: #E1BEE7;
+  --peach: #FFE0B2;
+  --mint-green: #A5D6A7;
+  --light-coral: #FFCDD2;
+  --darker-mint-green: #388E3C;
+  --darker-peach: #FB8C00;
+}
+
+body {
+  background: linear-gradient(to bottom right, #fce4ec, #f3e5f5);
+  color: var(--darker-mint-green);
+  font-family: 'Patrick Hand', cursive;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+.header {
+  background-color: var(--lavender);
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 50px;
+  font-size: 24px;
+  color: var(--darker-mint-green);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
+.header:hover {
+  transform: scale(1.05);
+}
+
+.image-uploader {
+  width: 90%; /* Reduced from 100% to 90% to ensure it fits comfortably inside the parent container */
+  max-width: 400px; /* Reduced the max-width slightly to ensure it fits within the parent container */
+  height: auto;
+  margin: 15px auto; /* Reduced margin for better alignment */
+  padding: 15px; /* Reduced padding to avoid overflow issues */
+  background-color: var(--soft-peach);
+  border-radius: 25px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border: 2px dashed var(--darker-mint-green);
+  transition: all 0.3s ease-in-out;
+  text-align: center;
+  position: relative;
+}
+
+.image-uploader:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.image-uploader img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-uploader::before {
+  content: "Upload your image here";
+  display: block;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  color: var(--darker-mint-green);
+  animation: placeholder-pulse 2s infinite;
+}
+
+@keyframes placeholder-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+.button {
+  background: linear-gradient(to right, var(--lavender), var(--peach));
+  color: var(--darker-peach);
+  border: 2px solid var(--darker-mint-green);
+  padding: 14px 28px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 25px;
+  border-radius: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.button:hover {
+  background: linear-gradient(to right, var(--darker-peach), var(--lavender));
+  color: var(--lavender);
+  transform: translateY(-4px);
+}
+
+.bubbles-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.bubble {
+  background-color: var(--soft-blue);
+  color: var(--darker-mint-green);
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.bubble:hover {
+  transform: scale(1.05);
+}
+
+.bubble.selected {
+  background-color: var(--mint-green);
+  color: var(--lavender);
+  transform: scale(1.1);
+}
+
+.bubble:nth-child(odd) {
+  background-color: var(--soft-pink);
+}
+
+.bubble:nth-child(even) {
+  background-color: var(--soft-yellow);
+}
+
+.bubble:nth-child(3n) {
+  background-color: var(--light-coral);
+}
+
+.bubble:nth-child(4n) {
+  background-color: var(--soft-green);
+}
+
+.background-elements {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.background-elements .floating {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: float-background var(--animation-duration) ease-in-out infinite;
+  opacity: 0.7;
+  top: var(--start-top, 50%);
+  left: var(--start-left, 50%);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Keyframes for basic floating */
+@keyframes float-background {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(calc(-100px + var(--vertical-shift))) translateX(calc(100px + var(--horizontal-shift))); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+/* Different animation patterns */
+@keyframes float-diagonal {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(calc(-80px + var(--vertical-shift))) translateX(calc(-80px + var(--horizontal-shift))); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes float-circular {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); }
+  50% { transform: translateY(calc(-120px + var(--vertical-shift))) translateX(calc(120px + var(--horizontal-shift))) rotate(180deg); }
+  100% { transform: translateY(0) translateX(0) rotate(360deg); }
+}
+
+@keyframes float-random {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(50px, -50px); }
+  50% { transform: translate(-50px, 50px); }
+  75% { transform: translate(25px, -25px); }
+}
+
+/* Assigning styles for different bubbles */
+.background-elements .floating:nth-child(1) {
+  --animation-duration: 15s;
+  --vertical-shift: 40px;
+  --horizontal-shift: 30px;
+  --start-top: 20%;
+  --start-left: 10%;
+  width: 200px;
+  height: 200px;
+  animation: float-background var(--animation-duration) ease-in-out infinite;
+}
+
+.background-elements .floating:nth-child(2) {
+  --animation-duration: 18s;
+  --vertical-shift: 60px;
+  --horizontal-shift: 50px;
+  --start-top: 70%;
+  --start-left: 80%;
+  width: 150px;
+  height: 150px;
+  animation: float-diagonal var(--animation-duration) ease-in-out infinite;
+}
+
+.background-elements .floating:nth-child(3) {
+  --animation-duration: 20s;
+  --vertical-shift: 80px;
+  --horizontal-shift: 70px;
+  --start-top: 40%;
+  --start-left: 50%;
+  width: 250px;
+  height: 250px;
+  animation: float-circular var(--animation-duration) ease-in-out infinite;
+}
+
+.background-elements .floating:nth-child(4) {
+  --animation-duration: 25s;
+  --vertical-shift: 50px;
+  --horizontal-shift: 40px;
+  --start-top: 10%;
+  --start-left: 30%;
+  width: 180px;
+  height: 180px;
+  animation: float-random var(--animation-duration) ease-in-out infinite;
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: var(--soft-blue);
+  padding: 20px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* App Container */
+.container {
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+  padding: 30px;
+  background-color: var(--soft-blue);
+  border-radius: 35px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  border: 3px solid var(--lavender);
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.modal-bubbles {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.modal-bubble {
+  background-color: var(--lavender);
+  color: var(--darker-mint-green);
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modal-bubble.selected {
+  background-color: var(--mint-green);
+  color: var(--lavender);
+  transform: scale(1.1);
+}
+
+.modal-close-button {
+  background: var(--peach);
+  color: var(--darker-peach);
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+  border: 2px solid var(--darker-mint-green);
+}
+
+.modal-close-button:hover {
+  background: var(--darker-peach);
+  color: var(--lavender);
+  transform: translateY(-3px);
+}
+
+.modal-bubbles .modal-bubble:nth-child(odd) {
+  background-color: var(--soft-pink);
+}
+
+.modal-bubbles .modal-bubble:nth-child(even) {
+  background-color: var(--soft-yellow);
+}
+
+.modal-bubbles .modal-bubble:nth-child(3n) {
+  background-color: var(--light-coral);
+}
+
+.modal-bubbles .modal-bubble:nth-child(4n) {
+  background-color: var(--soft-green);
+}
+
+.modal-bubble.selected {
+  background-color: var(--mint-green);
+  color: var(--lavender);
+  transform: scale(1.1);
+}
+
+.playlist-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: var(--soft-blue);
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.playlist {
+  list-style-type: none;
+  padding: 0;
+}
+
+.playlist-item {
+  background-color: var(--lavender);
+  margin: 10px 0;
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.playlist-item:hover {
+  transform: scale(1.05);
+}
+
+.song-title {
+  font-weight: bold;
+}
+
+.song-artist {
+  color: var(--darker-mint-green);
+}
+
+.playlist-sidebox {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Initially hidden off the screen */
+  width: 300px;
+  height: 100%;
+  background-color: var(--soft-blue);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease;
+  padding: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.playlist-sidebox.visible {
+  right: 0; /* Slide in */
+}
+
+.close-button {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.playlist-item {
+  margin-bottom: 10px;
 }
