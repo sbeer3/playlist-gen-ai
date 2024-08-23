@@ -15,3 +15,10 @@ This project is a web application that allows users to upload an image and gener
 - **React**: Frontend library for building the user interface.
 - **OpenAI API**: Used to generate playlists based on descriptive words.
 - **CSS**: For styling the application, including the smooth sliding animation for the playlist side box.
+
+##📝 License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+##🙏 Acknowledgments
+OpenAI: For providing the AI capabilities to generate playlists based on descriptive words.
+React: For powering the frontend of the application.
