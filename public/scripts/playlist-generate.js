@@ -1,5 +1,4 @@
 async function generatePlaylistFromWords(listOfWords) {
-    const apiKey = "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"; // Replace with your API key
     const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
